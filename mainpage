@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title>Welcome to the Khana Khazana Restaurant</title>
+</head>
+
+<body>
+	<form action="login.php" method="post">
+	Username :  <input type="submit" name="employee" value="Data of Employee"> 
+				<br/>
+	Password :  <input type="submit" name="customer" value="Data of Customer">
+				<br/>
+				<input type="submit" name="menu" value="View menu">
+	</form>
+</body>
+
+</html>

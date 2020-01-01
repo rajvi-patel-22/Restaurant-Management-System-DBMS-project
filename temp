@@ -1,0 +1,138 @@
+<?php
+$duser ='root';
+	$dpass ='';
+	$db = 'restaurant';
+	$con = new mysqli('localhost',$duser,$dpass,$db) or die("Unable to connect..!!");
+	$query="select * from order_status";
+	$result=mysqli_query($con,$query);
+	
+     if(isset($_POST['menu']))
+	{
+		$con = mysqli_connect('localhost','root','');
+		if(!$con)
+		{
+			die('Unable to connect..!!');
+		}
+		mysqli_select_db($con,'restaurant');
+		$f= $_POST['cid'];
+		
+		$q = "call display_food()";
+		$result=mysqli_query($con,$q);
+	
+		if(mysqli_num_rows($result))
+		{
+			while($row=mysqli_fetch_array($result))
+			{
+				echo "<br/> category_id: "   .$row['category_id'];
+				echo "<br/>category name: " .$row['category_name'];				
+				echo "<br/>food id : ".$lname=$row['Food_id'];
+				echo "<br/>food name: ".$city=$row['Food_name'];
+				echo "<br/>price: ".$address=$row['Price'];
+				echo "<br/>rate: ".$pcode=$row['Rate'];
+				echo "<br/>prep_time: ".$cno=$row['Prep_time'];
+				echo "<br/>spice_level: ".$salary=$row['Spice_level'];
+				echo "<br/>is_jain: ".$state=$row['Is_Jain'];
+				echo "<br/>food_description: ".$state=$row['Food_description'];
+				
+			}
+				
+		}
+		else
+		{
+			echo 'Data is not found ...!!';
+		}
+	   header("refresh:5; url=page1.html");
+	}
+	else if(isset($_POST['book']))
+	{
+		$var1= $_POST['custid'];
+	    $var2= $_POST['mem'];
+		$con = mysqli_connect('localhost','root','');
+		if(!$con)
+		{
+			die('Unable to connect..!!');
+		}
+		mysqli_select_db($con,'restaurant');
+		
+		
+		$query2 = "call Table_allocation('$var1','$var2')";
+		$result2=mysqli_query($con,$query2);
+	
+		if(mysqli_num_rows($result2))
+		{
+			while($row1=mysqli_fetch_array($result2))
+			{
+				echo "<br/> Your Table id is: "   .$row1['Table_id'];
+				
+			}
+				
+		}
+		else
+		{
+			echo 'Data is not found ...!!';
+		}
+	   header("refresh:2; url=page1.html");
+	}
+?>
+<!doctype html>
+<html>
+<head>
+<style>
+h2{
+background-color: #008B8B
+}
+
+</style>
+</head>
+<body ><form action="page2.php" method="post">
+<h2 align="center" ba >View Menu </h2> <input  type="submit" name="menu" value="menu"> 
+
+<h2 align="center">Book Table  :</h2>
+Customer Id:      <input type="text" name="custid"> <br/> <br/>
+Members    :      <input type="text" name="mem">
+			   <input  type="submit" name="book" value="book">
+			   
+
+<h2 align="center">Track Order status </h2>
+<table border="1"  style="line-height:30px;">
+<tr>
+<th>Order ID</th>
+<th>Serve Status</th>
+</tr>
+
+<?php
+//Fetch Data form database
+if(mysqli_num_rows($result)){
+ while($row=mysqli_fetch_array($result)){
+ ?>
+ <tr>
+ <td><?php echo $row['Order_id']; ?></td>
+ <td><?php echo $row['serve_status']; ?></td>
+ </tr>
+ <?php
+ }
+}
+else
+{
+ ?>
+ <tr>
+ <th colspan="2">There's No data found!!!</th>
+ </tr>
+ <?php
+}
+?>
+</table>
+<h4 >Update Status:</h4>
+Order Id:      <input type="text" name="orderid1"> 
+			   <input  type="submit" name="served" value="Served">
+<h2 align="center">Discount Calculation  :</h2>
+Order Id:      <input type="text" name="orderid2"> 
+			   <input  type="submit" name="Calculatedis" value="Calculate">
+<h2 align="center">Bill Calculation  :</h2>
+Order Id:      <input type="text" name="orderid2"> 
+			   <input  type="submit" name="Calculatebill" value="Calculate">
+
+</form>
+</body>
+</html>
+
